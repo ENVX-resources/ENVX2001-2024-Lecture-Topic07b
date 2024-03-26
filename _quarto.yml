@@ -1,0 +1,24 @@
+project:
+  title: SOLES Quarto presentation
+standalone: true
+slide-level: 2
+highlight-style: github
+revealjs-plugins:
+  - verticator
+format:
+  revealjs:
+    width: 1280
+    height: 720
+    slide-number: c/t
+    theme: [custom.scss]
+    title-slide-attributes:
+      data-background-image: _assets/title-slide.png
+      data-background-size: contain
+    html-math-method: katex
+    logo: _assets/usyd_horizontal.svg
+    transition: none # none | fade | slide | convex | concave | zoom
+    background-transition: none
+    # embed-resources: true
+execute:
+  freeze: auto
+  cache: true
