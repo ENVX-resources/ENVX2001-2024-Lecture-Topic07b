@@ -26,94 +26,28 @@ ggplot2::theme_set(cowplot::theme_half_open())
 ```
 
 
-# Brief history
+# Yesterday...
 
+- We discussed the basics of linear regression
+- Looked at how to define a linear relationship between two variables
+- How to fit a simple linear regression model 
+- How to obtain output from the model
+- Checking assumptions
 
+  
+# Inference
 
-![Adrien-Marie Legendre](assets/legendre.jpg)
-![Carl Friedrich Gauss](assets/gauss.jpg)
-![Francis Galton](assets/galton.jpg)
+Is our fitted model the best representation of the relationship between the variables?
 
-Adrien-Marie Legendre, Carl Friedrich Gauss & Francis Galton
+## Back to Galton's data
 
-
-
-
-## Least squares, correlation and astronomy
-
-- Method of least squares first [**published**]{style="color: firebrick"} paper by Adrien-Marie Legendre in 1805
-- Technique of least squares used by Carl Friedrich Gauss in 1809 to fit a parabola to the orbit of the asteroid Ceres
-- Model fitting first [**published**]{style="color: firebrick"} by Francis Galton in 1886 to the problem of predicting the height of a child from the height of the parents
-
-:::{.callout-note}
-Many other people contributed to the development of regression analysis, but these three are the "most" well-known.
-:::
-
-## Galton's data 
-
-```{r}
-library(HistData)
-dplyr::tibble(Galton)
-```
+What can we understand about the relationship between `child` and `parent`?
 
 - 928 children of 205 pairs of parents
 - Height of parents and children measured in inches
 - Size classes were binned (hence data looks discrete)
 
--
-. . .
 
-```{r}
-fit <- lm(child ~ parent, data = Galton)
-summary(fit)
-```
-
-
-
-
-Linear regression in R is performed using the `lm()` function:
-
-```{r}
-fit <- lm(child ~ parent, data = Galton)
-fit
-```
-
-
-
-
-The `broom` package simplifies handling of model objects by converting them into tidy data frames:
-```{r}
-library(broom)
-summ_fit <- tidy(fit)
-summ_fit
-```
-
-. . .
-
-The `sjPlot` package is useful to create a summary table:
-```{r}
-library(sjPlot)
-sjPlot::tab_model(fit, dv.labels = "")
-```
-
----
-
-The `glance` function is useful for quickly assessing model parameters:
-
-```{r}
-broom::glance(fit)
-```
-
-
-```{r}
-library(performance)
-```
-
-
-
-  
-# Inference
-Back to Galton's data: What can we understand about the relationship between `child` and `parent`?
 
 ## Hypothesis testing
 
@@ -155,8 +89,10 @@ ggplot(data = models, aes(x = parent, y = child)) +
   facet_wrap(~model) +
   xlab("Parent height (in)") +
   ylab("Child height (in)")
-```
 
+```
+:::: {.fragment}
+The null model is a flat line at the mean of the child height (mean = `r round(mean(Galton$child))` inches).
 
 ## ANOVA using linear regression 
 
@@ -166,8 +102,7 @@ ANOVA is simply a variation of the linear regression
 ::: {.column width="50%"}
 ### Using ANOVA
 
-### `anova(fit)`
-
+`anova(fit)`
 ```{r}
 fit <- lm(formula = child ~ parent, data = Galton)
 anova(fit)
@@ -177,7 +112,7 @@ anova(fit)
 ::: {.column width="50%"}
 ### Using Regression
 
-### `summary(fit)`
+`summary(fit)`
 ```{r}
 summary(fit)
 ```
@@ -345,13 +280,19 @@ Is a simple linear model appropriate?
 
 ## The Log transform
 
+:::{.fragment}
 - Log-linear: $Log(Y)=\beta_0+\beta_1x$
   - Good: an increase of $x$ by 1 unit corresponds to a $\beta_1$ unit increase in $log(Y)$
   - Simple: an increase of $x$ by 1 unit corresponds to a $\beta_1 \times 100\%$ increase in $Y$
+:::
+:::{.fragment}
 - Linear-log: $Y=\beta_0+\beta_1log(x)$
   - An increase of $1\%$ in $x$ corresponds to a $\frac{\beta_1}{100}$ increase in $Y$
+:::
+:::{.fragment}
 - Log-log: $Log(Y)=\beta_0+\beta_1log(x)$
   - An increase of $1\%$ in $x$ corresponds to a $\beta_1\%$ increase in $Y$
+:::
 
 ## Transforming Ozone
 
@@ -617,7 +558,6 @@ equatiomatic::extract_eq(multi_fit, use_coefs = TRUE, coef_digits = 3)
 ## Is MLR model better?
 
 ```{r}
-# sjPlot = pretty data tables and visualisation
 sjPlot::tab_model(fit_log, multi_fit, digits = 4, show.ci = FALSE)
 ```
 
