@@ -91,9 +91,9 @@ ggplot(data = models, aes(x = parent, y = child)) +
   ylab("Child height (in)")
 
 ```
-:::: {.fragment}
+::: {.fragment}
 The null model is a flat line at the mean of the child height (mean = `r round(mean(Galton$child))` inches).
-
+:::
 ## ANOVA using linear regression 
 
 ANOVA is simply a variation of the linear regression
